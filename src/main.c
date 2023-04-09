@@ -20,6 +20,14 @@ void goto_xy(unsigned x, unsigned y)
 
 // #endif WINDOWS   // TODO
 
+// typedef struct Range_t {
+//     float _x1 = -1.0f;
+//     float _x2 =  1.0f;
+//     float _y1 = -1.0f;
+//     float _y2 =  1.0f;
+// } Range_t;
+
+// field range for x is [-1.0f, 1.0f] and for y is [-1.0f, 1.0f]
 typedef struct Field_t {
     char** _data;
     int _rows;
