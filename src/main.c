@@ -88,16 +88,43 @@ Bool is_line_vertical(const Line_t* line) {
     return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
 }
 
-void get_horizontal_range(int max_column_index, const Line_t* line, int* left_column, int* right_column) {
-    if (line->_point1._x < LEFT) {
+void get_horizontal_range(int max_column_index, const Line_t* line, int* left_column, int* right_column) { 
+    *left_column = (line->_point1._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index));
+
+    if (*left_column < 0)
         *left_column = 0;
-    } else {
-        // -1.0f -> 0
-        //  0.0f -> max_column_index / 2
-        //  1.0f -> max_column_index
-        *left_column = (line->_point1._x - RIGHT) / (float)(max_column_index + 1); 
-        // YOU ENDED HERE
-    }
+    else if (*left_column > max_column_index)
+        *left_column = -1;
+/*
+    // -1.0              0.0               1.0
+    //   0   1  2  3  4   5    6  7  8  9  10
+    //  0.0              1.0               2.0
+    //   0   1  2  3  4   5    6  7  8  9  10
+
+    //  0.0  0.1 0.2 0.3 0.4  0.5  0.6 0.7 0.8 0.9  1.0
+    //   0    1   2   3   4    5    6   7   8   9    10
+
+    // 0.789 -> 7 = 0.789 / 0.1 = 0.789 / (1.0 / 10) = 0.789 / ((LEFT - RIGHT) / (float)max_column_index)
+
+
+    // -1.0              0.0               1.0
+    //   0   1  2  3  4   5    6  7  8  9  10
+
+    // -0.05 -> 4 = (-0.05 - (-1.0)) / ((1.0 - (-1.0)) / 10) = (x - RIGHT) / ((LEFT - RIGHT) / (float)max_column_index)
+    // -0.05 -> 4 =  0.95 / (2.0 / 10) = 0.95 / 0.2 = 4._ = 4 
+
+    // -2.0 -> column < 0
+    (x - RIGHT) / ((LEFT - RIGHT) / (float)max_column_index)
+    (-2.0 - (-1.0))
+*/
+
+    *right_column = (line->_point2._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index)) + 1;
+
+    if (*right_column > max_column_index + 1)
+        *right_column = max_column_index + 1;
+    else if (*right_column < 0)
+        *right_column = -1;
+
 }
 
 void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol) {
@@ -105,7 +132,7 @@ void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol
     int column2 = 0;
     get_horizontal_range(field->_columns, line, &column1, &column2);
 
-    for (int column = column1; column <= column2; ++column) {
+    for (int column = column1; column < column2; ++column) {
 
     }
 }
