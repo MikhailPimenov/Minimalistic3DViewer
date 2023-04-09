@@ -2,6 +2,22 @@
 
 // #ifdef WINDOWS   // TODO
 #include <windows.h>
+// CONSOLE===========================================================================
+void hidecursor()
+{
+   HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+   CONSOLE_CURSOR_INFO info;
+   info.dwSize = 100;
+   info.bVisible = FALSE;
+   SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+void goto_xy(unsigned x, unsigned y)
+{
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y});
+}
+// CONSOLE ENDED======================================================================
+
 // #endif WINDOWS   // TODO
 
 typedef struct Field_t {
@@ -51,9 +67,26 @@ void draw_line(Field_t* field, const Line_t* line, char filled_symbol) {
 }
 
 void output_frame(const Field_t* field) {
-
+    for (int row = 0; row < field->_rows; ++row) {
+        for (int column = 0; column < field->_columns; ++column) {
+            printf("%c", field->_data[row][column]);
+        }
+        printf("\n");
+    }
 }
 
 int main() {    // TODO: arguments including delay between frames
+    hidecursor();
 
+    Field_t field;
+    allocate_field(&field, 6, 24);
+
+    initialize_field(&field, '.');
+
+    for (int i = 0; i < 20; ++i) {
+        output_frame(&field);
+        goto_xy(0, 0);
+    }
+
+    deallocate_field(&field);
 }
