@@ -1,7 +1,16 @@
 #include <stdio.h>
+#include <assert.h>
 
 // #ifdef WINDOWS   // TODO
 #include <windows.h>
+// #endif WINDOWS   // TODO
+
+#define LEFT -1.0f
+#define RIGHT 1.0f
+#define UP 1.0f
+#define DOWN -1.0f
+
+// #ifdef WINDOWS   // TODO
 // CONSOLE===========================================================================
 void hidecursor()
 {
@@ -17,15 +26,15 @@ void goto_xy(unsigned x, unsigned y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y});
 }
 // CONSOLE ENDED======================================================================
-
 // #endif WINDOWS   // TODO
 
-// typedef struct Range_t {
-//     float _x1 = -1.0f;
-//     float _x2 =  1.0f;
-//     float _y1 = -1.0f;
-//     float _y2 =  1.0f;
-// } Range_t;
+
+
+typedef enum Bool {
+    False = 0,
+    True  = 1,
+} Bool;
+
 
 // field range for x is [-1.0f, 1.0f] and for y is [-1.0f, 1.0f]
 typedef struct Field_t {
@@ -61,19 +70,53 @@ void deallocate_field(Field_t* field) {
 // FIELD ENDED================================================================================
 
 typedef struct Point_t {
-    double _x;
-    double _y;
+    float _x;
+    float _y;
 } Point_t;
 
+
+// LINE=======================================================================================
 typedef struct Line_t {
     Point_t _point1;
     Point_t _point2;
 } Line_t;
 
-void draw_line(Field_t* field, const Line_t* line, char filled_symbol) {
+Bool is_line_vertical(const Line_t* line) {
+    // point2._y is always greater than point1._y
+    // point2._x is always greater than point1._x
 
+    return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
 }
 
+void get_horizontal_range(int max_column, const Line_t* line, int* left_column, int* right_column) {
+    if (line->_point1._x < LEFT && line->_point2._x > RIGHT) {
+        *left_column = 0;
+        *right_column = max_column;
+    }
+}
+
+void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol) {
+    int column1 = 0;
+    int column2 = 0;
+    get_horizontal_range(field->_columns, line, &column1, &column2);
+
+    for (int column = column1; column < column2; ++column) {
+
+    }
+}
+
+void draw_vertical_line(Field_t* field, const Line_t* line, char filled_symbol) {
+    assert(0);
+}
+
+void draw_line(Field_t* field, const Line_t* line, char filled_symbol) {
+    if (is_line_vertical(line)) 
+        draw_vertical_line(field, line, filled_symbol);
+    else
+        draw_horizontal_line(field, line, filled_symbol);
+}
+
+// LINE ENDED=================================================================================
 void output_frame(const Field_t* field) {
     for (int row = 0; row < field->_rows; ++row) {
         for (int column = 0; column < field->_columns; ++column) {
@@ -87,11 +130,11 @@ int main() {    // TODO: arguments including delay between frames
     hidecursor();
 
     Field_t field;
-    allocate_field(&field, 6, 24);
+    allocate_field(&field, 6, 60);
 
     initialize_field(&field, '.');
 
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 0; i < 10; ++i) {
         output_frame(&field);
         goto_xy(0, 0);
     }
