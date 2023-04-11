@@ -88,13 +88,13 @@ Bool is_line_vertical(const Line_t* line) {
     return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
 }
 
-void get_horizontal_range(int max_column_index, const Line_t* line, int* left_column, int* right_column) { 
-    *left_column = (line->_point1._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index));
+void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_column, int* end_column) { 
+    *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index));
 
-    if (*left_column < 0)
-        *left_column = 0;
-    else if (*left_column > max_column_index)
-        *left_column = -1;
+    if (*begin_column < 0)
+        *begin_column = 0;
+    else if (*begin_column > max_column_index)
+        *begin_column = -1;
 /*
     // -1.0              0.0               1.0
     //   0   1  2  3  4   5    6  7  8  9  10
@@ -118,13 +118,43 @@ void get_horizontal_range(int max_column_index, const Line_t* line, int* left_co
     (-2.0 - (-1.0))
 */
 
-    *right_column = (line->_point2._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index)) + 1;
+    *end_column = (line->_point2._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index)) + 1;
 
-    if (*right_column > max_column_index + 1)
-        *right_column = max_column_index + 1;
-    else if (*right_column < 0)
-        *right_column = -1;
+    if (*end_column > max_column_index + 1)
+        *end_column = max_column_index + 1;
+    else if (*end_column < 0)
+        *end_column = -1;
 
+}
+
+void get_vertical_range(int max_row_index, const Line_t* line, int* start_row, int* end_row) { 
+    *start_row = (line->_point1._y - DOWN) / ((UP - DOWN) / (float)(max_row_index));
+
+    if (*start_row < 0)
+        *start_row = 0;
+    else if (*start_row > max_row_index)
+        *start_row = -1;
+
+    *end_row = (line->_point2._y - DOWN) / ((UP - DOWN) / (float)(max_row_index)) + 1;
+
+    if (*end_row > max_row_index + 1)
+        *end_row = max_row_index + 1;
+    else if (*end_row < 0)
+        *end_row = -1;
+}
+
+float get_y_from_x(const Line_t* line, float x) {
+    return  (x - line->_point1._x) * 
+            ((line->_point2._y - line->_point1._y) / 
+            (line->_point2._x - line->_point1._x)) + 
+            line->_point1._y;
+}
+
+float get_x_from_y(const Line_t* line, float y) {
+    return  (y - line->_point1._y) * 
+            (line->_point2._x - line->_point1._x) / 
+            (line->_point2._y - line->_point1._y) + 
+            line->_point1._x;
 }
 
 void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol) {
@@ -133,7 +163,7 @@ void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol
     get_horizontal_range(field->_columns, line, &column1, &column2);
 
     for (int column = column1; column < column2; ++column) {
-
+        // const float y = get_y_from_x(line, )
     }
 }
 
