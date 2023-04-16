@@ -261,9 +261,29 @@ typedef struct Triangle_t {
     Point_t _points[3];
 } Triangle_t;
 
-// void draw_triangle(Field_t* field, const Triangle_t* triangle, char filled_symbol) {
+void draw_triangle(Field_t* field, const Triangle_t* triangle, char filled_symbol) {
+    Line_t a;
+    Line_t b;
+    Line_t c;
 
-// }
+    a._point1 = triangle->_points[0];
+    a._point2 = triangle->_points[1];
+    normalize(&a);
+
+    draw_line(field, &a, filled_symbol);
+
+    b._point1 = triangle->_points[1];
+    b._point2 = triangle->_points[2];
+    normalize(&b);
+
+    draw_line(field, &b, filled_symbol);
+
+    c._point1 = triangle->_points[2];
+    c._point2 = triangle->_points[0];
+    normalize(&c);
+
+    draw_line(field, &c, filled_symbol);
+}
 
 int main() {    // TODO: arguments including delay between frames
     // hidecursor();
@@ -273,31 +293,43 @@ int main() {    // TODO: arguments including delay between frames
 
     initialize_field(&field, '.');
 
-    Line_t h1;
-    h1._point1._x = -0.5f;
-    h1._point1._y =  0.0f;
-    h1._point2._x =  0.5f;
-    h1._point2._y =  0.0f;
+    // Line_t h1;
+    // h1._point1._x = -0.5f;
+    // h1._point1._y =  0.0f;
+    // h1._point2._x =  0.5f;
+    // h1._point2._y =  0.0f;
 
-    Line_t h2;
-    h2._point1._x = -10.5f;
-    h2._point1._y = -10.0f;
-    h2._point2._x =  0.5f;
-    h2._point2._y =  0.5f;
+    // Line_t h2;
+    // h2._point1._x = -10.5f;
+    // h2._point1._y = -10.0f;
+    // h2._point2._x =  0.5f;
+    // h2._point2._y =  0.5f;
 
-    Line_t v1;
-    v1._point1._x = -0.05f;
-    v1._point1._y = -0.75f;
-    v1._point2._x =  0.05f;
-    v1._point2._y =  0.75f;
+    // Line_t v1;
+    // v1._point1._x = -0.05f;
+    // v1._point1._y = -0.75f;
+    // v1._point2._x =  0.05f;
+    // v1._point2._y =  0.75f;
 
-    Line_t v2;
-    v2._point1._x = -5.05f;
-    v2._point1._y = -20.75f;
-    v2._point2._x =  0.05f;
-    v2._point2._y =  0.75f;
+    // Line_t v2;
+    // v2._point1._x = -5.05f;
+    // v2._point1._y = -20.75f;
+    // v2._point2._x =  0.05f;
+    // v2._point2._y =  0.75f;
 
-    draw_line(&field, &v2, '*');
+    // draw_line(&field, &v2, '*');
+
+    Triangle_t t1;
+    t1._points[0]._x = 0.5f;
+    t1._points[0]._y = 0.5f;
+
+    t1._points[1]._x = -0.9f;
+    t1._points[1]._y = -0.9f;
+
+    t1._points[2]._x = -0.9f;
+    t1._points[2]._y =  0.9f;
+
+    draw_triangle(&field, &t1, '*');
 
     for (int i = 0; i < 1; ++i) {
         output_frame(&field);
