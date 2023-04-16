@@ -83,8 +83,19 @@ typedef struct Line_t {
 
 Bool is_line_vertical(const Line_t* line) {
     // point2._x is always greater than point1._x
-
     return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
+}
+
+void normalize(Line_t* line) {
+    if (line->_point2._x < line->_point1._x) {
+        const float x = line->_point2._x;
+        line->_point2._x = line->_point1._x;
+        line->_point1._x = x;
+
+        const float y = line->_point2._y;
+        line->_point2._y = line->_point1._y;
+        line->_point1._y = y;
+    }
 }
 
 void get_horizontal_range(int columns, const Line_t* line, int* begin_column, int* end_column) { 
@@ -95,34 +106,6 @@ void get_horizontal_range(int columns, const Line_t* line, int* begin_column, in
         *begin_column = 0;
     else if (*begin_column > columns - 1)
         *begin_column = -1;
-/*
-    // -1.0              0.0               1.0
-    //   0   1  2  3  4   5    6  7  8  9  10
-    //  0.0              1.0               2.0
-    //   0   1  2  3  4   5    6  7  8  9  10
-
-    //  10.0              10.5      10.789         11.0
-    //   0   1  2  3  4     5    6     7       8  9   10
-
-    // 10.789 - 10.0 = 0.789
-    // 0.789 / 0.1 = 0.789 / (1.0 / 10) = 0.789 / (11.0 - 10.0 / 10) = 0.789 / 0.1 = 7
-
-    //  0.0  0.1 0.2 0.3 0.4  0.5  0.6 0.7 0.8 0.9  1.0
-    //   0    1   2   3   4    5    6   7   8   9    10
-
-    // 0.789 -> 7 = 0.789 / 0.1 = 0.789 / (1.0 / 10) = 0.789 / ((LEFT - RIGHT) / (float)max_column_index)
-
-
-    // -1.0              0.0               1.0
-    //   0   1  2  3  4   5    6  7  8  9  10
-
-    // -0.05 -> 4 = (-0.05 - (-1.0)) / ((1.0 - (-1.0)) / 10) = (x - RIGHT) / ((LEFT - RIGHT) / (float)max_column_index)
-    // -0.05 -> 4 =  0.95 / (2.0 / 10) = 0.95 / 0.2 = 4._ = 4 
-
-    // -2.0 -> column < 0
-    (x - RIGHT) / ((LEFT - RIGHT) / (float)max_column_index)
-    (-2.0 - (-1.0))
-*/
 
     *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1)) + 1;
 
@@ -178,25 +161,7 @@ int get_row(int rows, float y) {
 float get_x(int columns, int column) {
     assert(0 < columns && "Columns is zero!");
     assert(0 <= column && column < columns && "Column is out of range!");
-    // const float range = RIGHT - LEFT;
-    // const float dx = (columns - 1 > 0) ? (range / (columns - 1)) : range;
-    // const float x = dx * column;
-    // const float result = LEFT + x;
-    
-    
     return LEFT + column * ((columns - 1 > 0) ? ((RIGHT - LEFT) / (columns - 1)) : (RIGHT - LEFT));
-
-    // 10.0             10.5             11.0
-    //  0    1 2 3 4     5    6 7 8 9     10
-    
-    // 0.0             0.5             1.0
-    //  0    1 2 3 4    5    6 7 8 9   10
-
-    // -1.0            0.0             1.0
-    //  0    1 2 3 4    5    6 7 8 9   10
-    //  1.0 -> columns - 1
-    // -1.0 -> 0
-    //  0.0 -> 
 }
 
 float get_y(int rows, int row) {
