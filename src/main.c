@@ -82,22 +82,18 @@ typedef struct Line_t {
 } Line_t;
 
 Bool is_line_vertical(const Line_t* line) {
-    // point2._y is always greater than point1._y
     // point2._x is always greater than point1._x
 
     return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
 }
 
-// int get_column(float x, int max_column_index) {
-    // return (x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index));
-// }
-
-void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_column, int* end_column) { 
-    *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index));
+void get_horizontal_range(int columns, const Line_t* line, int* begin_column, int* end_column) { 
+    assert(0 < columns - 1 && "Columns is zero!");
+    *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1));
 
     if (*begin_column < 0)
         *begin_column = 0;
-    else if (*begin_column > max_column_index)
+    else if (*begin_column > columns - 1)
         *begin_column = -1;
 /*
     // -1.0              0.0               1.0
@@ -128,32 +124,33 @@ void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_c
     (-2.0 - (-1.0))
 */
 
-    *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index)) + 1;
+    *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1)) + 1;
 
-    if (*end_column > max_column_index + 1)
-        *end_column = max_column_index + 1;
+    if (*end_column > columns)
+        *end_column = columns;
     else if (*end_column < 0)
         *end_column = -1;
-
 }
 
-void get_vertical_range(int max_row_index, const Line_t* line, int* start_row, int* end_row) { 
-    *start_row = (line->_point1._y - DOWN) / ((UP - DOWN) / (float)(max_row_index));
+void get_vertical_range(int rows, const Line_t* line, int* begin_row, int* end_row) { 
+    assert(0 < rows - 1 && "Rows is zero!");
+    *begin_row = (line->_point1._y - DOWN) / ((UP - DOWN) / (float)(rows - 1));
 
-    if (*start_row < 0)
-        *start_row = 0;
-    else if (*start_row > max_row_index)
-        *start_row = -1;
+    if (*begin_row < 0)
+        *begin_row = 0;
+    else if (*begin_row > rows - 1)
+        *begin_row = -1;
 
-    *end_row = (line->_point2._y - DOWN) / ((UP - DOWN) / (float)(max_row_index)) + 1;
+    *end_row = (line->_point2._y - DOWN) / ((UP - DOWN) / (float)(rows - 1)) + 1;
 
-    if (*end_row > max_row_index + 1)
-        *end_row = max_row_index + 1;
+    if (*end_row > rows)
+        *end_row = rows;
     else if (*end_row < 0)
         *end_row = -1;
 }
 
 float get_y_from_x(const Line_t* line, float x) {
+    // assert(line->_point2._x - line->_point1._x != 0 && "Zero-division error!");
     return  (x - line->_point1._x) * 
             ((line->_point2._y - line->_point1._y) / 
             (line->_point2._x - line->_point1._x)) + 
@@ -161,6 +158,7 @@ float get_y_from_x(const Line_t* line, float x) {
 }
 
 float get_x_from_y(const Line_t* line, float y) {
+    // assert(line->_point2._y - line->_point1._y != 0 && "Zero-division error!");
     return  (y - line->_point1._y) * 
             (line->_point2._x - line->_point1._x) / 
             (line->_point2._y - line->_point1._y) + 
@@ -168,10 +166,12 @@ float get_x_from_y(const Line_t* line, float y) {
 }
 
 int get_column(int columns, float x) {
-    return (x - LEFT) / ((LEFT - RIGHT) / (float)(columns - 1));
+    // assert(0 < columns - 1 && "Columns is zero or negative! Zero-division error!");
+    return (x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1));
 }
 
 int get_row(int rows, float y) {
+    // assert(0 < rows - 1 && "Rows is zero or negative! Zero-division error!");
     return (y - DOWN) / ((UP - DOWN) / (float)(rows - 1));
 }
 
@@ -199,12 +199,18 @@ float get_x(int columns, int column) {
     //  0.0 -> 
 }
 
+float get_y(int rows, int row) {
+    assert(0 < rows && "Rows is zero!");
+    assert(0 <= row && row < rows && "Row is out of range!");  
+    return DOWN + row * ((rows - 1 > 0) ? ((UP - DOWN) / (rows - 1)) : (UP - DOWN));
+}
+
 
 
 void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol) {
     int column1 = 0;
     int column2 = 0;
-    get_horizontal_range(field->_columns - 1, line, &column1, &column2);
+    get_horizontal_range(field->_columns, line, &column1, &column2);
 
     if (column1 == -1 && column2 == -1)
         return;
@@ -225,10 +231,31 @@ void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol
 }
 
 void draw_vertical_line(Field_t* field, const Line_t* line, char filled_symbol) {
-    assert(0);
+    int row1 = 0;
+    int row2 = 0;
+    get_vertical_range(field->_rows, line, &row1, &row2);
+
+    if (row1 == -1 && row2 == -1)
+        return;
+
+    const float y1 = get_y(field->_rows, row1);
+    const float y2 = get_y(field->_rows, row2);
+    const float dy = (row2 - row1 != 0) ? (y2 - y1) / (row2 - row1) : 0.0f;
+    float y = y1;
+    for (int row = row1; row < row2; ++row) {
+        const float x = get_x_from_y(line, y);
+        const int column = get_column(field->_columns, x);
+
+        if (0 <= column && column < field->_columns)
+            field->_data[row][column] = filled_symbol;
+
+        y += dy;
+    }
 }
 
 void draw_line(Field_t* field, const Line_t* line, char filled_symbol) {
+    assert(0 < field->_rows && "Rows is not valid!");
+    assert(0 < field->_columns && "Columns is not valid!");
     if (is_line_vertical(line)) 
         draw_vertical_line(field, line, filled_symbol);
     else
@@ -265,7 +292,19 @@ int main() {    // TODO: arguments including delay between frames
     h2._point2._x =  0.5f;
     h2._point2._y =  0.5f;
 
-    draw_line(&field, &h2, '*');
+    Line_t v1;
+    v1._point1._x = -0.05f;
+    v1._point1._y = -0.75f;
+    v1._point2._x =  0.05f;
+    v1._point2._y =  0.75f;
+
+    Line_t v2;
+    v2._point1._x = -0.05f;
+    v2._point1._y = -0.75f;
+    v2._point2._x = -0.05f;
+    v2._point2._y =  0.75f;
+
+    draw_line(&field, &v2, '*');
 
     for (int i = 0; i < 1; ++i) {
         output_frame(&field);
