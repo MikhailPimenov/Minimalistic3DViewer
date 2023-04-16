@@ -88,6 +88,10 @@ Bool is_line_vertical(const Line_t* line) {
     return (line->_point2._y - line->_point1._y) > (line->_point2._x - line->_point1._x);
 }
 
+// int get_column(float x, int max_column_index) {
+    // return (x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index));
+// }
+
 void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_column, int* end_column) { 
     *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index));
 
@@ -100,6 +104,12 @@ void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_c
     //   0   1  2  3  4   5    6  7  8  9  10
     //  0.0              1.0               2.0
     //   0   1  2  3  4   5    6  7  8  9  10
+
+    //  10.0              10.5      10.789         11.0
+    //   0   1  2  3  4     5    6     7       8  9   10
+
+    // 10.789 - 10.0 = 0.789
+    // 0.789 / 0.1 = 0.789 / (1.0 / 10) = 0.789 / (11.0 - 10.0 / 10) = 0.789 / 0.1 = 7
 
     //  0.0  0.1 0.2 0.3 0.4  0.5  0.6 0.7 0.8 0.9  1.0
     //   0    1   2   3   4    5    6   7   8   9    10
@@ -118,7 +128,7 @@ void get_horizontal_range(int max_column_index, const Line_t* line, int* begin_c
     (-2.0 - (-1.0))
 */
 
-    *end_column = (line->_point2._x - RIGHT) / ((LEFT - RIGHT) / (float)(max_column_index)) + 1;
+    *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(max_column_index)) + 1;
 
     if (*end_column > max_column_index + 1)
         *end_column = max_column_index + 1;
@@ -157,13 +167,60 @@ float get_x_from_y(const Line_t* line, float y) {
             line->_point1._x;
 }
 
+int get_column(int columns, float x) {
+    return (x - LEFT) / ((LEFT - RIGHT) / (float)(columns - 1));
+}
+
+int get_row(int rows, float y) {
+    return (y - DOWN) / ((UP - DOWN) / (float)(rows - 1));
+}
+
+float get_x(int columns, int column) {
+    assert(0 < columns && "Columns is zero!");
+    assert(0 <= column && column < columns && "Column is out of range!");
+    // const float range = RIGHT - LEFT;
+    // const float dx = (columns - 1 > 0) ? (range / (columns - 1)) : range;
+    // const float x = dx * column;
+    // const float result = LEFT + x;
+    
+    
+    return LEFT + column * ((columns - 1 > 0) ? ((RIGHT - LEFT) / (columns - 1)) : (RIGHT - LEFT));
+
+    // 10.0             10.5             11.0
+    //  0    1 2 3 4     5    6 7 8 9     10
+    
+    // 0.0             0.5             1.0
+    //  0    1 2 3 4    5    6 7 8 9   10
+
+    // -1.0            0.0             1.0
+    //  0    1 2 3 4    5    6 7 8 9   10
+    //  1.0 -> columns - 1
+    // -1.0 -> 0
+    //  0.0 -> 
+}
+
+
+
 void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol) {
     int column1 = 0;
     int column2 = 0;
-    get_horizontal_range(field->_columns, line, &column1, &column2);
+    get_horizontal_range(field->_columns - 1, line, &column1, &column2);
 
+    if (column1 == -1 && column2 == -1)
+        return;
+
+    const float x1 = get_x(field->_columns, column1);
+    const float x2 = get_x(field->_columns, column2);
+    const float dx = (column2 - column1 != 0) ? (x2 - x1) / (column2 - column1) : 0.0f;
+    float x = x1;
     for (int column = column1; column < column2; ++column) {
-        // const float y = get_y_from_x(line, )
+        const float y = get_y_from_x(line, x);
+        const int row = get_row(field->_rows, y);
+
+        if (0 <= row && row < field->_rows)
+            field->_data[row][column] = filled_symbol;
+
+        x += dx;
     }
 }
 
@@ -189,16 +246,30 @@ void output_frame(const Field_t* field) {
 }
 
 int main() {    // TODO: arguments including delay between frames
-    hidecursor();
+    // hidecursor();
 
     Field_t field;
-    allocate_field(&field, 6, 60);
+    allocate_field(&field, 10, 100);
 
     initialize_field(&field, '.');
 
-    for (int i = 0; i < 10; ++i) {
+    Line_t h1;
+    h1._point1._x = -0.5f;
+    h1._point1._y =  0.0f;
+    h1._point2._x =  0.5f;
+    h1._point2._y =  0.0f;
+
+    Line_t h2;
+    h2._point1._x = -0.5f;
+    h2._point1._y =  0.0f;
+    h2._point2._x =  0.5f;
+    h2._point2._y =  0.5f;
+
+    draw_line(&field, &h2, '*');
+
+    for (int i = 0; i < 1; ++i) {
         output_frame(&field);
-        goto_xy(0, 0);
+        // goto_xy(0, 0);
     }
 
     deallocate_field(&field);
