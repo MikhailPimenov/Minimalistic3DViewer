@@ -102,17 +102,26 @@ void get_horizontal_range(int columns, const Line_t* line, int* begin_column, in
     assert(0 < columns - 1 && "Columns is zero!");
     *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1));
 
+    // -1.0              0.0                  1.0
+    //   0    1 2 3 4     5     6 7 8 9        10               // columns 11
+
+
+
+    //  10.0       10.312   10.5   10.789              11.0
+    //   0    1 2   3   4    5     6   7    8   9        10               // columns 11
+    // 0.789 -> 7 = 0.789 / 0.1 = (10.789 - 10) / ((1.0 - 0.0) / 10)
+
     if (*begin_column < 0)
         *begin_column = 0;
     else if (*begin_column > columns - 1)
-        *begin_column = -1;
+        *begin_column = columns;
 
     *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1)) + 1;
 
     if (*end_column > columns)
         *end_column = columns;
     else if (*end_column < 0)
-        *end_column = -1;
+        *end_column = 0;
 }
 
 void get_vertical_range(int rows, const Line_t* line, int* begin_row, int* end_row) { 
@@ -160,13 +169,13 @@ int get_row(int rows, float y) {
 
 float get_x(int columns, int column) {
     assert(0 < columns && "Columns is zero!");
-    assert(0 <= column && column < columns && "Column is out of range!");
+    assert(0 <= column && "Column is negative!");
     return LEFT + column * ((columns - 1 > 0) ? ((RIGHT - LEFT) / (columns - 1)) : (RIGHT - LEFT));
 }
 
 float get_y(int rows, int row) {
     assert(0 < rows && "Rows is zero!");
-    assert(0 <= row && row < rows && "Row is out of range!");  
+    assert(0 <= row && "Row is negative!");  
     return DOWN + row * ((rows - 1 > 0) ? ((UP - DOWN) / (rows - 1)) : (UP - DOWN));
 }
 
@@ -177,7 +186,7 @@ void draw_horizontal_line(Field_t* field, const Line_t* line, char filled_symbol
     int column2 = 0;
     get_horizontal_range(field->_columns, line, &column1, &column2);
 
-    if (column1 == -1 && column2 == -1)
+    if (column1 == column2)
         return;
 
     const float x1 = get_x(field->_columns, column1);
@@ -200,7 +209,7 @@ void draw_vertical_line(Field_t* field, const Line_t* line, char filled_symbol) 
     int row2 = 0;
     get_vertical_range(field->_rows, line, &row1, &row2);
 
-    if (row1 == -1 && row2 == -1)
+    if (row1 == row2)
         return;
 
     const float y1 = get_y(field->_rows, row1);
@@ -237,11 +246,30 @@ void output_frame(const Field_t* field) {
     }
 }
 
+
+
+// 3D graphics==========================================================================
+
+typedef struct Matrix_t {
+    float** _matrix;
+    int _rows;
+    int _columns;
+} Matrix_t;
+
+
+typedef struct Triangle_t {
+    Point_t _points[3];
+} Triangle_t;
+
+// void draw_triangle(Field_t* field, const Triangle_t* triangle, char filled_symbol) {
+
+// }
+
 int main() {    // TODO: arguments including delay between frames
     // hidecursor();
 
     Field_t field;
-    allocate_field(&field, 10, 100);
+    allocate_field(&field, 24, 100);
 
     initialize_field(&field, '.');
 
@@ -252,8 +280,8 @@ int main() {    // TODO: arguments including delay between frames
     h1._point2._y =  0.0f;
 
     Line_t h2;
-    h2._point1._x = -0.5f;
-    h2._point1._y =  0.0f;
+    h2._point1._x = -10.5f;
+    h2._point1._y = -10.0f;
     h2._point2._x =  0.5f;
     h2._point2._y =  0.5f;
 
@@ -264,9 +292,9 @@ int main() {    // TODO: arguments including delay between frames
     v1._point2._y =  0.75f;
 
     Line_t v2;
-    v2._point1._x = -0.05f;
-    v2._point1._y = -0.75f;
-    v2._point2._x = -0.05f;
+    v2._point1._x = -5.05f;
+    v2._point1._y = -20.75f;
+    v2._point2._x =  0.05f;
     v2._point2._y =  0.75f;
 
     draw_line(&field, &v2, '*');
