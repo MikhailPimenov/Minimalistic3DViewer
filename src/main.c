@@ -6,8 +6,8 @@
 #include <windows.h>
 // #endif WINDOWS   // TODO
 
-#define LEFT -2.0f
-#define RIGHT 2.0f
+#define LEFT -1.0f
+#define RIGHT 1.0f
 #define UP 1.0f
 #define DOWN -1.0f
 
@@ -102,7 +102,11 @@ void normalize(Line_t* line) {
 
 void get_horizontal_range(int columns, const Line_t* line, int* begin_column, int* end_column) { 
     assert(0 < columns - 1 && "Columns is zero!");
-    *begin_column = (line->_point1._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1));
+
+    const float begin_x = line->_point1._x < line->_point2._x ? line->_point1._x : line->_point2._x;
+    const float end_x = line->_point1._x > line->_point2._x ? line->_point1._x : line->_point2._x;
+
+    *begin_column = (begin_x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1));
 
     // -1.0              0.0                  1.0
     //   0    1 2 3 4     5     6 7 8 9        10               // columns 11
@@ -118,7 +122,7 @@ void get_horizontal_range(int columns, const Line_t* line, int* begin_column, in
     else if (*begin_column > columns - 1)
         *begin_column = columns;
 
-    *end_column = (line->_point2._x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1)) + 1;
+    *end_column = (end_x - LEFT) / ((RIGHT - LEFT) / (float)(columns - 1)) + 1;
 
     if (*end_column > columns)
         *end_column = columns;
@@ -134,14 +138,18 @@ void get_horizontal_range(int columns, const Line_t* line, int* begin_column, in
 
 void get_vertical_range(int rows, const Line_t* line, int* begin_row, int* end_row) { 
     assert(0 < rows - 1 && "Rows is zero!");
-    *begin_row = (line->_point1._y - DOWN) / ((UP - DOWN) / (float)(rows - 1));
+    
+    const float begin_y = line->_point1._y < line->_point2._y ? line->_point1._y : line->_point2._y;
+    const float end_y = line->_point1._y > line->_point2._y ? line->_point1._y : line->_point2._y;
+    
+    *begin_row = (begin_y - DOWN) / ((UP - DOWN) / (float)(rows - 1));
 
     if (*begin_row < 0)
         *begin_row = 0;
     else if (*begin_row > rows - 1)
         *begin_row = -1;
 
-    *end_row = (line->_point2._y - DOWN) / ((UP - DOWN) / (float)(rows - 1)) + 1;
+    *end_row = (end_y - DOWN) / ((UP - DOWN) / (float)(rows - 1)) + 1;
 
     if (*end_row > rows)
         *end_row = rows;
@@ -373,17 +381,17 @@ void create_cube(Cube_t* cube) {
     // south ========================================================
 
     // triangle --------------------------------------------
-    // cube->_triangles[0]._points[0]._x = 0.0f;
-    // cube->_triangles[0]._points[0]._y = 0.0f;
-    // cube->_triangles[0]._points[0]._z = 0.0f;
+    cube->_triangles[0]._points[0]._x = 0.0f;
+    cube->_triangles[0]._points[0]._y = 0.0f;
+    cube->_triangles[0]._points[0]._z = 0.0f;
 
-    // cube->_triangles[0]._points[1]._x = 0.0f;
-    // cube->_triangles[0]._points[1]._y = 1.0f;
-    // cube->_triangles[0]._points[1]._z = 0.0f;
+    cube->_triangles[0]._points[1]._x = 0.0f;
+    cube->_triangles[0]._points[1]._y = 1.0f;
+    cube->_triangles[0]._points[1]._z = 0.0f;
 
-    // cube->_triangles[0]._points[2]._x = 1.0f;
-    // cube->_triangles[0]._points[2]._y = 1.0f;
-    // cube->_triangles[0]._points[2]._z = 0.0f;
+    cube->_triangles[0]._points[2]._x = 1.0f;
+    cube->_triangles[0]._points[2]._y = 1.0f;
+    cube->_triangles[0]._points[2]._z = 0.0f;
 
     // return;
 
@@ -399,8 +407,6 @@ void create_cube(Cube_t* cube) {
     cube->_triangles[1]._points[2]._x = 1.0f;
     cube->_triangles[1]._points[2]._y = 0.0f;
     cube->_triangles[1]._points[2]._z = 0.0f;
-
-    return;
 
 
     // east ========================================================
@@ -587,28 +593,26 @@ void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4
     Triangle3D_t projected;
     initialize_triangle3d(&projected);
 
-    // multiplyMatrixVector(&(triangle->_points[0]), &(projected._points[0]), m);
-    // multiplyMatrixVector(&(triangle->_points[1]), &(projected._points[1]), m);
-    // multiplyMatrixVector(&(triangle->_points[2]), &(projected._points[2]), m);
+    multiplyMatrixVector(&(triangle->_points[0]), &(projected._points[0]), m);
+    multiplyMatrixVector(&(triangle->_points[1]), &(projected._points[1]), m);
+    multiplyMatrixVector(&(triangle->_points[2]), &(projected._points[2]), m);
 
     Triangle_t triangle2D;
 
-    // triangle2D._points[0]._x = projected._points[0]._x;
-    // triangle2D._points[0]._x = projected._points[0]._y;
-// 
-    // triangle2D._points[1]._x = projected._points[1]._x;
-    // triangle2D._points[1]._x = projected._points[1]._y;
-// 
-    // triangle2D._points[2]._x = projected._points[2]._x;
-    // triangle2D._points[2]._x = projected._points[2]._y;
+    triangle2D._points[0]._x = projected._points[0]._x;
+    triangle2D._points[0]._y = projected._points[0]._y;
+    triangle2D._points[1]._x = projected._points[1]._x;
+    triangle2D._points[1]._y = projected._points[1]._y;
+    triangle2D._points[2]._x = projected._points[2]._x;
+    triangle2D._points[2]._y = projected._points[2]._y;
 
 
-    triangle2D._points[0]._x = triangle->_points[0]._x;
-    triangle2D._points[0]._y = triangle->_points[0]._y;
-    triangle2D._points[1]._x = triangle->_points[1]._x;
-    triangle2D._points[1]._y = triangle->_points[1]._y;
-    triangle2D._points[2]._x = triangle->_points[2]._x;
-    triangle2D._points[2]._y = triangle->_points[2]._y;
+    // triangle2D._points[0]._x = triangle->_points[0]._x;
+    // triangle2D._points[0]._y = triangle->_points[0]._y;
+    // triangle2D._points[1]._x = triangle->_points[1]._x;
+    // triangle2D._points[1]._y = triangle->_points[1]._y;
+    // triangle2D._points[2]._x = triangle->_points[2]._x;
+    // triangle2D._points[2]._y = triangle->_points[2]._y;
 
 
 
@@ -616,8 +620,8 @@ void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4
 }
 
 void draw_cube(Field_t* field, const Cube_t* cube, const Matrix4x4_t* m, char filled_symbol) {
-    // for (int i = 0; i < 12; ++i) 
-        draw_triangle3D(field, &(cube->_triangles[1]), m, filled_symbol);
+    for (int i = 0; i < 12; ++i) 
+        draw_triangle3D(field, &(cube->_triangles[i]), m, filled_symbol);
 }
 
 void initialize_cube(Cube_t* cube) {
@@ -633,7 +637,7 @@ int main() {    // TODO: arguments including delay between frames
 
     const float zNear = 0.1f;
     const float zFar = 1000.0f;
-    const float fov = 90.0f;
+    const float fov = 60.0f;
 
     const float fovRadian = 1.0f / tanf(fov * 0.5f / 180.0f * 3.14159f);
     Matrix4x4_t projectionMatrix;
