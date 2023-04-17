@@ -590,12 +590,31 @@ void initialize_triangle3d(Triangle3D_t* triangle) {
 }
 
 void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4x4_t* m, char filled_symbol) {
+    
+    
+    Triangle3D_t translated;
+    translated._points[0]._x = triangle->_points[0]._x;
+    translated._points[0]._y = triangle->_points[0]._y;
+    translated._points[0]._z = triangle->_points[0]._z;
+
+    translated._points[1]._x = triangle->_points[1]._x;
+    translated._points[1]._y = triangle->_points[1]._y;
+    translated._points[1]._z = triangle->_points[1]._z;
+
+    translated._points[2]._x = triangle->_points[2]._x;
+    translated._points[2]._y = triangle->_points[2]._y;
+    translated._points[2]._z = triangle->_points[2]._z;
+
+    translated._points[0]._z += 3.0f;
+    translated._points[1]._z += 3.0f;
+    translated._points[2]._z += 3.0f;
+
     Triangle3D_t projected;
     initialize_triangle3d(&projected);
 
-    multiplyMatrixVector(&(triangle->_points[0]), &(projected._points[0]), m);
-    multiplyMatrixVector(&(triangle->_points[1]), &(projected._points[1]), m);
-    multiplyMatrixVector(&(triangle->_points[2]), &(projected._points[2]), m);
+    multiplyMatrixVector(&(translated._points[0]), &(projected._points[0]), m);
+    multiplyMatrixVector(&(translated._points[1]), &(projected._points[1]), m);
+    multiplyMatrixVector(&(translated._points[2]), &(projected._points[2]), m);
 
     Triangle_t triangle2D;
 
@@ -620,8 +639,12 @@ void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4
 }
 
 void draw_cube(Field_t* field, const Cube_t* cube, const Matrix4x4_t* m, char filled_symbol) {
-    for (int i = 0; i < 12; ++i) 
+    for (int i = 0; i < 12; ++i) {
         draw_triangle3D(field, &(cube->_triangles[i]), m, filled_symbol);
+        // output_frame(field);
+        // printf("%d\n", i);
+        // initialize_field(field, '.');
+    }
 }
 
 void initialize_cube(Cube_t* cube) {
