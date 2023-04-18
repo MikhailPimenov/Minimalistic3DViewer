@@ -8,8 +8,8 @@
 
 #define LEFT -1.0f
 #define RIGHT 1.0f
-#define UP 1.0f
-#define DOWN -1.0f
+#define UP 1.85f
+#define DOWN -1.85f
 
 // #ifdef WINDOWS   // TODO
 // CONSOLE===========================================================================
@@ -605,9 +605,9 @@ void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4
     translated._points[2]._y = triangle->_points[2]._y;
     translated._points[2]._z = triangle->_points[2]._z;
 
-    translated._points[0]._z += 3.0f;
-    translated._points[1]._z += 3.0f;
-    translated._points[2]._z += 3.0f;
+    translated._points[0]._z += 1.0f;
+    translated._points[1]._z += 1.0f;
+    translated._points[2]._z += 1.0f;
 
     Triangle3D_t projected;
     initialize_triangle3d(&projected);
@@ -654,9 +654,10 @@ void initialize_cube(Cube_t* cube) {
 
 int main() {    // TODO: arguments including delay between frames
     // hidecursor();
-    const int h = 24;
-    const int w = 100;
+    const int h = 36;
+    const int w = 120;
     const float aspectRatio = (float)h / (float)w;
+    // const float aspectRatio = 1.0f;
 
     const float zNear = 0.1f;
     const float zFar = 1000.0f;
