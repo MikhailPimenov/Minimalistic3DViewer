@@ -375,94 +375,94 @@ typedef struct Cube_t {
 } Cube_t;
 
 void create_cube(Cube_t* cube) {
-    // // south ========================================================
+    // south ========================================================
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[0]._points[0]._x = 0.0f;
-    // cube->_triangles[0]._points[0]._y = 0.0f;
-    // cube->_triangles[0]._points[0]._z = 0.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[0]._points[0]._x = 0.0f;
+    cube->_triangles[0]._points[0]._y = 0.0f;
+    cube->_triangles[0]._points[0]._z = 0.0f;
 
-    // cube->_triangles[0]._points[1]._x = 0.0f;
-    // cube->_triangles[0]._points[1]._y = 1.0f;
-    // cube->_triangles[0]._points[1]._z = 0.0f;
+    cube->_triangles[0]._points[1]._x = 0.0f;
+    cube->_triangles[0]._points[1]._y = 1.0f;
+    cube->_triangles[0]._points[1]._z = 0.0f;
 
-    // cube->_triangles[0]._points[2]._x = 1.0f;
-    // cube->_triangles[0]._points[2]._y = 1.0f;
-    // cube->_triangles[0]._points[2]._z = 0.0f;
+    cube->_triangles[0]._points[2]._x = 1.0f;
+    cube->_triangles[0]._points[2]._y = 1.0f;
+    cube->_triangles[0]._points[2]._z = 0.0f;
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[1]._points[0]._x = 0.0f;
-    // cube->_triangles[1]._points[0]._y = 0.0f;
-    // cube->_triangles[1]._points[0]._z = 0.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[1]._points[0]._x = 0.0f;
+    cube->_triangles[1]._points[0]._y = 0.0f;
+    cube->_triangles[1]._points[0]._z = 0.0f;
 
-    // cube->_triangles[1]._points[1]._x = 1.0f;
-    // cube->_triangles[1]._points[1]._y = 1.0f;
-    // cube->_triangles[1]._points[1]._z = 0.0f;
+    cube->_triangles[1]._points[1]._x = 1.0f;
+    cube->_triangles[1]._points[1]._y = 1.0f;
+    cube->_triangles[1]._points[1]._z = 0.0f;
 
-    // cube->_triangles[1]._points[2]._x = 1.0f;
-    // cube->_triangles[1]._points[2]._y = 0.0f;
-    // cube->_triangles[1]._points[2]._z = 0.0f;
+    cube->_triangles[1]._points[2]._x = 1.0f;
+    cube->_triangles[1]._points[2]._y = 0.0f;
+    cube->_triangles[1]._points[2]._z = 0.0f;
 
 
     // // east ========================================================
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[2]._points[0]._x = 1.0f;
-    // cube->_triangles[2]._points[0]._y = 0.0f;
-    // cube->_triangles[2]._points[0]._z = 0.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[2]._points[0]._x = 1.0f;
+    cube->_triangles[2]._points[0]._y = 0.0f;
+    cube->_triangles[2]._points[0]._z = 0.0f;
 
-    // cube->_triangles[2]._points[1]._x = 1.0f;
-    // cube->_triangles[2]._points[1]._y = 1.0f;
-    // cube->_triangles[2]._points[1]._z = 0.0f;
+    cube->_triangles[2]._points[1]._x = 1.0f;
+    cube->_triangles[2]._points[1]._y = 1.0f;
+    cube->_triangles[2]._points[1]._z = 0.0f;
 
-    // cube->_triangles[2]._points[2]._x = 1.0f;
-    // cube->_triangles[2]._points[2]._y = 1.0f;
-    // cube->_triangles[2]._points[2]._z = 1.0f;
+    cube->_triangles[2]._points[2]._x = 1.0f;
+    cube->_triangles[2]._points[2]._y = 1.0f;
+    cube->_triangles[2]._points[2]._z = 1.0f;
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[3]._points[0]._x = 1.0f;
-    // cube->_triangles[3]._points[0]._y = 0.0f;
-    // cube->_triangles[3]._points[0]._z = 0.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[3]._points[0]._x = 1.0f;
+    cube->_triangles[3]._points[0]._y = 0.0f;
+    cube->_triangles[3]._points[0]._z = 0.0f;
 
-    // cube->_triangles[3]._points[1]._x = 1.0f;
-    // cube->_triangles[3]._points[1]._y = 1.0f;
-    // cube->_triangles[3]._points[1]._z = 1.0f;
+    cube->_triangles[3]._points[1]._x = 1.0f;
+    cube->_triangles[3]._points[1]._y = 1.0f;
+    cube->_triangles[3]._points[1]._z = 1.0f;
 
-    // cube->_triangles[3]._points[2]._x = 1.0f;
-    // cube->_triangles[3]._points[2]._y = 0.0f;
-    // cube->_triangles[3]._points[2]._z = 1.0f;
-
-
+    cube->_triangles[3]._points[2]._x = 1.0f;
+    cube->_triangles[3]._points[2]._y = 0.0f;
+    cube->_triangles[3]._points[2]._z = 1.0f;
 
 
 
-    // // north ========================================================
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[4]._points[0]._x = 1.0f;
-    // cube->_triangles[4]._points[0]._y = 0.0f;
-    // cube->_triangles[4]._points[0]._z = 1.0f;
 
-    // cube->_triangles[4]._points[1]._x = 1.0f;
-    // cube->_triangles[4]._points[1]._y = 1.0f;
-    // cube->_triangles[4]._points[1]._z = 1.0f;
+    // north ========================================================
 
-    // cube->_triangles[4]._points[2]._x = 0.0f;
-    // cube->_triangles[4]._points[2]._y = 1.0f;
-    // cube->_triangles[4]._points[2]._z = 1.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[4]._points[0]._x = 1.0f;
+    cube->_triangles[4]._points[0]._y = 0.0f;
+    cube->_triangles[4]._points[0]._z = 1.0f;
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[5]._points[0]._x = 1.0f;
-    // cube->_triangles[5]._points[0]._y = 0.0f;
-    // cube->_triangles[5]._points[0]._z = 1.0f;
+    cube->_triangles[4]._points[1]._x = 1.0f;
+    cube->_triangles[4]._points[1]._y = 1.0f;
+    cube->_triangles[4]._points[1]._z = 1.0f;
 
-    // cube->_triangles[5]._points[1]._x = 0.0f;
-    // cube->_triangles[5]._points[1]._y = 1.0f;
-    // cube->_triangles[5]._points[1]._z = 1.0f;
+    cube->_triangles[4]._points[2]._x = 0.0f;
+    cube->_triangles[4]._points[2]._y = 1.0f;
+    cube->_triangles[4]._points[2]._z = 1.0f;
 
-    // cube->_triangles[5]._points[2]._x = 0.0f;
-    // cube->_triangles[5]._points[2]._y = 0.0f;
-    // cube->_triangles[5]._points[2]._z = 1.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[5]._points[0]._x = 1.0f;
+    cube->_triangles[5]._points[0]._y = 0.0f;
+    cube->_triangles[5]._points[0]._z = 1.0f;
+
+    cube->_triangles[5]._points[1]._x = 0.0f;
+    cube->_triangles[5]._points[1]._y = 1.0f;
+    cube->_triangles[5]._points[1]._z = 1.0f;
+
+    cube->_triangles[5]._points[2]._x = 0.0f;
+    cube->_triangles[5]._points[2]._y = 0.0f;
+    cube->_triangles[5]._points[2]._z = 1.0f;
 
 
 
@@ -482,82 +482,82 @@ void create_cube(Cube_t* cube) {
     cube->_triangles[6]._points[2]._z = 0.0f;
 
     // triangle --------------------------------------------
-    // cube->_triangles[7]._points[0]._x = 0.0f;
-    // cube->_triangles[7]._points[0]._y = 0.0f;
-    // cube->_triangles[7]._points[0]._z = 1.0f;
+    cube->_triangles[7]._points[0]._x = 0.0f;
+    cube->_triangles[7]._points[0]._y = 0.0f;
+    cube->_triangles[7]._points[0]._z = 1.0f;
 
-    // cube->_triangles[7]._points[1]._x = 0.0f;
-    // cube->_triangles[7]._points[1]._y = 1.0f;
-    // cube->_triangles[7]._points[1]._z = 0.0f;
+    cube->_triangles[7]._points[1]._x = 0.0f;
+    cube->_triangles[7]._points[1]._y = 1.0f;
+    cube->_triangles[7]._points[1]._z = 0.0f;
 
-    // cube->_triangles[7]._points[2]._x = 0.0f;
-    // cube->_triangles[7]._points[2]._y = 0.0f;
-    // cube->_triangles[7]._points[2]._z = 0.0f;
-
-
-
-
-
-
-    // // top ========================================================
-
-    // // triangle --------------------------------------------
-    // cube->_triangles[8]._points[0]._x = 0.0f;
-    // cube->_triangles[8]._points[0]._y = 1.0f;
-    // cube->_triangles[8]._points[0]._z = 0.0f;
-
-    // cube->_triangles[8]._points[1]._x = 0.0f;
-    // cube->_triangles[8]._points[1]._y = 1.0f;
-    // cube->_triangles[8]._points[1]._z = 1.0f;
-
-    // cube->_triangles[8]._points[2]._x = 1.0f;
-    // cube->_triangles[8]._points[2]._y = 1.0f;
-    // cube->_triangles[8]._points[2]._z = 1.0f;
-
-    // // triangle --------------------------------------------
-    // cube->_triangles[9]._points[0]._x = 0.0f;
-    // cube->_triangles[9]._points[0]._y = 1.0f;
-    // cube->_triangles[9]._points[0]._z = 0.0f;
-
-    // cube->_triangles[9]._points[1]._x = 1.0f;
-    // cube->_triangles[9]._points[1]._y = 1.0f;
-    // cube->_triangles[9]._points[1]._z = 1.0f;
-
-    // cube->_triangles[9]._points[2]._x = 1.0f;
-    // cube->_triangles[9]._points[2]._y = 1.0f;
-    // cube->_triangles[9]._points[2]._z = 0.0f;
+    cube->_triangles[7]._points[2]._x = 0.0f;
+    cube->_triangles[7]._points[2]._y = 0.0f;
+    cube->_triangles[7]._points[2]._z = 0.0f;
 
 
 
 
 
-    // // bottom ========================================================
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[10]._points[0]._x = 1.0f;
-    // cube->_triangles[10]._points[0]._y = 0.0f;
-    // cube->_triangles[10]._points[0]._z = 1.0f;
+    // top ========================================================
 
-    // cube->_triangles[10]._points[1]._x = 0.0f;
-    // cube->_triangles[10]._points[1]._y = 0.0f;
-    // cube->_triangles[10]._points[1]._z = 1.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[8]._points[0]._x = 0.0f;
+    cube->_triangles[8]._points[0]._y = 1.0f;
+    cube->_triangles[8]._points[0]._z = 0.0f;
 
-    // cube->_triangles[10]._points[2]._x = 0.0f;
-    // cube->_triangles[10]._points[2]._y = 0.0f;
-    // cube->_triangles[10]._points[2]._z = 0.0f;
+    cube->_triangles[8]._points[1]._x = 0.0f;
+    cube->_triangles[8]._points[1]._y = 1.0f;
+    cube->_triangles[8]._points[1]._z = 1.0f;
 
-    // // triangle --------------------------------------------
-    // cube->_triangles[11]._points[0]._x = 1.0f;
-    // cube->_triangles[11]._points[0]._y = 0.0f;
-    // cube->_triangles[11]._points[0]._z = 1.0f;
+    cube->_triangles[8]._points[2]._x = 1.0f;
+    cube->_triangles[8]._points[2]._y = 1.0f;
+    cube->_triangles[8]._points[2]._z = 1.0f;
 
-    // cube->_triangles[11]._points[1]._x = 0.0f;
-    // cube->_triangles[11]._points[1]._y = 0.0f;
-    // cube->_triangles[11]._points[1]._z = 0.0f;
+    // triangle --------------------------------------------
+    cube->_triangles[9]._points[0]._x = 0.0f;
+    cube->_triangles[9]._points[0]._y = 1.0f;
+    cube->_triangles[9]._points[0]._z = 0.0f;
 
-    // cube->_triangles[11]._points[2]._x = 1.0f;
-    // cube->_triangles[11]._points[2]._y = 0.0f;
-    // cube->_triangles[11]._points[2]._z = 0.0f;
+    cube->_triangles[9]._points[1]._x = 1.0f;
+    cube->_triangles[9]._points[1]._y = 1.0f;
+    cube->_triangles[9]._points[1]._z = 1.0f;
+
+    cube->_triangles[9]._points[2]._x = 1.0f;
+    cube->_triangles[9]._points[2]._y = 1.0f;
+    cube->_triangles[9]._points[2]._z = 0.0f;
+
+
+
+
+
+    // bottom ========================================================
+
+    // triangle --------------------------------------------
+    cube->_triangles[10]._points[0]._x = 1.0f;
+    cube->_triangles[10]._points[0]._y = 0.0f;
+    cube->_triangles[10]._points[0]._z = 1.0f;
+
+    cube->_triangles[10]._points[1]._x = 0.0f;
+    cube->_triangles[10]._points[1]._y = 0.0f;
+    cube->_triangles[10]._points[1]._z = 1.0f;
+
+    cube->_triangles[10]._points[2]._x = 0.0f;
+    cube->_triangles[10]._points[2]._y = 0.0f;
+    cube->_triangles[10]._points[2]._z = 0.0f;
+
+    // triangle --------------------------------------------
+    cube->_triangles[11]._points[0]._x = 1.0f;
+    cube->_triangles[11]._points[0]._y = 0.0f;
+    cube->_triangles[11]._points[0]._z = 1.0f;
+
+    cube->_triangles[11]._points[1]._x = 0.0f;
+    cube->_triangles[11]._points[1]._y = 0.0f;
+    cube->_triangles[11]._points[1]._z = 0.0f;
+
+    cube->_triangles[11]._points[2]._x = 1.0f;
+    cube->_triangles[11]._points[2]._y = 0.0f;
+    cube->_triangles[11]._points[2]._z = 0.0f;
 
 }
 
@@ -584,25 +584,96 @@ void initialize_triangle3d(Triangle3D_t* triangle) {
     } 
 }
 
-void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4x4_t* m, char filled_symbol) {
+void draw_triangle3D(Field_t* field, const Triangle3D_t* triangle, const Matrix4x4_t* m, char filled_symbol, float angleZ, float angleX) {
     
+
+    Triangle3D_t rotatedZ;
+    initialize_triangle3d(&rotatedZ);
+
+
+    static Matrix4x4_t rotateMatrixZ;
+    for (int row = 0; row < 4; ++row)
+        for (int column = 0; column < 4; ++column)
+            rotateMatrixZ._data[row][column] = 0.0f;
+
+    rotateMatrixZ._data[0][0] = cosf(angleZ);
+    rotateMatrixZ._data[0][1] = sinf(angleZ);
+    rotateMatrixZ._data[1][0] = -sinf(angleZ);
+    rotateMatrixZ._data[1][1] = cosf(angleZ);
+    rotateMatrixZ._data[2][2] = 1;
+    rotateMatrixZ._data[3][3] = 1;
+
+
+
+
+
+
+    multiplyMatrixVector(&(triangle->_points[0]), &(rotatedZ._points[0]), &rotateMatrixZ);
+    multiplyMatrixVector(&(triangle->_points[1]), &(rotatedZ._points[1]), &rotateMatrixZ);
+    multiplyMatrixVector(&(triangle->_points[2]), &(rotatedZ._points[2]), &rotateMatrixZ);
     
+
+
+    static Matrix4x4_t rotateMatrixX;
+    for (int row = 0; row < 4; ++row)
+        for (int column = 0; column < 4; ++column)
+            rotateMatrixX._data[row][column] = 0.0f;
+
+    rotateMatrixX._data[0][0] = 1;
+    rotateMatrixX._data[1][1] = cosf(angleX);
+    rotateMatrixX._data[1][2] = sinf(angleX);
+    rotateMatrixX._data[2][1] = -sinf(angleX);
+    rotateMatrixX._data[2][2] = cosf(angleX);
+    rotateMatrixX._data[3][3] = 1;
+
+
+    Triangle3D_t rotatedZX;
+    initialize_triangle3d(&rotatedZX);
+
+
+    multiplyMatrixVector(&(rotatedZ._points[0]), &(rotatedZX._points[0]), &rotateMatrixX);
+    multiplyMatrixVector(&(rotatedZ._points[1]), &(rotatedZX._points[1]), &rotateMatrixX);
+    multiplyMatrixVector(&(rotatedZ._points[2]), &(rotatedZX._points[2]), &rotateMatrixX);
+
+
     Triangle3D_t translated;
-    translated._points[0]._x = triangle->_points[0]._x;
-    translated._points[0]._y = triangle->_points[0]._y;
-    translated._points[0]._z = triangle->_points[0]._z;
+    translated._points[0]._x = rotatedZX._points[0]._x;
+    translated._points[0]._y = rotatedZX._points[0]._y;
+    translated._points[0]._z = rotatedZX._points[0]._z;
 
-    translated._points[1]._x = triangle->_points[1]._x;
-    translated._points[1]._y = triangle->_points[1]._y;
-    translated._points[1]._z = triangle->_points[1]._z;
+    translated._points[1]._x = rotatedZX._points[1]._x;
+    translated._points[1]._y = rotatedZX._points[1]._y;
+    translated._points[1]._z = rotatedZX._points[1]._z;
 
-    translated._points[2]._x = triangle->_points[2]._x;
-    translated._points[2]._y = triangle->_points[2]._y;
-    translated._points[2]._z = triangle->_points[2]._z;
+    translated._points[2]._x = rotatedZX._points[2]._x;
+    translated._points[2]._y = rotatedZX._points[2]._y;
+    translated._points[2]._z = rotatedZX._points[2]._z;
+
+
+    // translated._points[0]._x = triangle->_points[0]._x;
+    // translated._points[0]._y = triangle->_points[0]._y;
+    // translated._points[0]._z = triangle->_points[0]._z;
+
+    // translated._points[1]._x = triangle->_points[1]._x;
+    // translated._points[1]._y = triangle->_points[1]._y;
+    // translated._points[1]._z = triangle->_points[1]._z;
+
+    // translated._points[2]._x = triangle->_points[2]._x;
+    // translated._points[2]._y = triangle->_points[2]._y;
+    // translated._points[2]._z = triangle->_points[2]._z;
+
+
+
 
     translated._points[0]._z += 1.0f;
     translated._points[1]._z += 1.0f;
     translated._points[2]._z += 1.0f;
+
+    
+    
+
+    
+
 
     Triangle3D_t projected;
     initialize_triangle3d(&projected);
@@ -639,9 +710,9 @@ void shift_cube_x(Cube_t* cube, float shift) {
             cube->_triangles[i]._points[j]._x += shift;
 }
 
-void draw_cube(Field_t* field, const Cube_t* cube, const Matrix4x4_t* m, char filled_symbol) {
+void draw_cube(Field_t* field, const Cube_t* cube, const Matrix4x4_t* m, char filled_symbol, float angleZ, float angleX) {
     for (int i = 0; i < 12; ++i) {
-        draw_triangle3D(field, &(cube->_triangles[i]), m, filled_symbol);
+        draw_triangle3D(field, &(cube->_triangles[i]), m, filled_symbol, angleZ, angleX);
         // output_frame(field);
         // printf("%d\n", i);
         // initialize_field(field, '.');
@@ -654,7 +725,7 @@ void initialize_cube(Cube_t* cube) {
 }
 
 int main() {    // TODO: arguments including delay between frames
-    hidecursor();
+
     const int h = 36;
     const int w = 120;
     const float aspectRatio = (float)h / (float)w;
@@ -676,12 +747,7 @@ int main() {    // TODO: arguments including delay between frames
     projectionMatrix._data[2][3] = 1.0f;
 
 
-    // Matrix4x4_t rotateZ;
-    // for (int row = 0; row < 4; ++row)
-    //     for (int column = 0; column < 4; ++column)
-    //         rotateZ._data[row][column] = 0.0f;
-
-    // rotateZ._data[0][0] = cosf(theta)
+    
 
     Cube_t cube1;
     initialize_cube(&cube1);
@@ -736,11 +802,17 @@ int main() {    // TODO: arguments including delay between frames
     // draw_triangle(&field, &t1, '*');
 
     // shift_cube_x(&cube1, -2.0f);
-    shift_cube_x(&cube1, 2.0f);
+    // shift_cube_x(&cube1, 2.0f);
     // for (int i = 0; i < 20; ++i) {
-    for (int i = 0; i < 1; ++i) {
+    float angleZ = 0.0f;
+    float angleX = 0.0f;
+
+    hidecursor();
+    for (int i = 0; i < 63; ++i) {
         // shift_cube_x(&cube1, 0.2f);
-        draw_cube(&field, &cube1, &projectionMatrix, '.');
+        draw_cube(&field, &cube1, &projectionMatrix, '.', angleZ, angleX);
+        // angleZ += 0.1f;
+        angleX += 0.05f;
 
         output_frame(&field);
         initialize_field(&field, ' ');
